@@ -10,6 +10,16 @@ type ApodResponse struct {
 	URL            string `json:"url"`
 }
 
+type User struct {
+	Name     string `json:"name"`
+	Password string `json:"password"`
+}
+
+var Users = []User{
+	{Name: "Bruce Wayne", Password: "Batman"},
+	{Name: "Clark Kent", Password: "SuperMan"},
+}
+
 // album represents data about a record album.
 type Album struct {
 	ID     string  `json:"id"`

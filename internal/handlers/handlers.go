@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/epousa/ginFrameworkPractise/internal/models"
+	models "github.com/epousa/ginFrameworkPractise/internal/models"
 	"github.com/gin-gonic/gin"
 )
 
@@ -82,6 +82,44 @@ func PostAlbums(c *gin.Context) {
 	c.IndentedJSON(http.StatusCreated, newAlbum)
 }
 
+func GetUsers(c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, models.Users)
+}
+
+func SignUp(c *gin.Context) {
+	var newUser models.User
+
+	// Call BindJSON to bind the received JSON to
+	// newAlbum.
+	if err := c.BindJSON(&newUser); err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	// Add the new album to the slice.
+	models.Users = append(models.Users, newUser)
+	c.IndentedJSON(http.StatusCreated, newUser)
+
+}
+
+func SignIn(c *gin.Context) {
+	user := new(models.User)
+
+	if err := c.Bind(user); err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+	for _, u := range models.Users {
+		if u.Name == user.Name && u.Password == user.Password {
+			c.IndentedJSON(http.StatusOK, gin.H{
+				"msg": "Signed in successfully.",
+			})
+			return
+		}
+	}
+	c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"err": "Sign in failed."})
+}
+
 func GetNoRoute(c *gin.Context) {
-	c.JSON(http.StatusNotFound, gin.H{})
+	c.IndentedJSON(http.StatusNotFound, gin.H{})
 }
