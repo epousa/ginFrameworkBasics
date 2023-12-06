@@ -81,3 +81,7 @@ func PostAlbums(c *gin.Context) {
 	models.Albums = append(models.Albums, newAlbum)
 	c.IndentedJSON(http.StatusCreated, newAlbum)
 }
+
+func GetNoRoute(c *gin.Context) {
+	c.JSON(http.StatusNotFound, gin.H{})
+}

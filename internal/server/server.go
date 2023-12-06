@@ -1,16 +1,10 @@
 package server
 
-import (
-	"github.com/epousa/ginFrameworkPractise/internal/handlers"
-	"github.com/gin-gonic/gin"
-)
+import "github.com/epousa/ginFrameworkPractise/internal/routes"
 
 func StartServer() {
-	router := gin.Default()
-	router.GET("/albums", handlers.GetAlbums)
-	router.GET("/albums/:id", handlers.GetAlbumByID)
-	router.POST("/albums", handlers.PostAlbums)
-	router.GET("/apod", handlers.GetAPIData)
+	router := routes.SetRouter()
 
-	router.Run("localhost:8080")
+	// Start listening and serving requests
+	router.Run(":8080")
 }
